@@ -1,0 +1,20 @@
+.content {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chip {
+    margin-left: 10px !important;
+    margin-bottom: 5px !important;
+}
+
+.steps {
+    overflow-y: auto;
+    flex: 1;
+}

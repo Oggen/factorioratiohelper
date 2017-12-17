@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './step.css';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
@@ -73,8 +74,9 @@ export default class Step extends Component {
 
     render() {
         return (
-            <Paper>
+            <Paper className="container">
                 <TextField
+                    className="stepInput"
                     floatingLabelText="Count"
                     name="count"
                     type="number"
@@ -83,6 +85,7 @@ export default class Step extends Component {
                 />
 
                 <TextField
+                    className="stepInput"
                     floatingLabelText="Crafting Speed"
                     name="speed"
                     type="number"
@@ -91,6 +94,7 @@ export default class Step extends Component {
                 />
 
                 <TextField
+                    className="stepInput"
                     floatingLabelText="Crafting Time"
                     name="time"
                     type="number"
@@ -98,18 +102,20 @@ export default class Step extends Component {
                     onChange={this.handleChange.bind(this)}
                 />
                 
-                <Paper zDepth={2} style={{width: "fit-content"}}>
+                <Paper zDepth={2} className="inputOutputContainer">
                     {this.state.inputs.map((x, i) => {
                         return (
                             <div key={i}>
                                 <TextField
+                                    className="inputOutputField"
                                     hintText="Input Count"
                                     underlineShow={false}
-                                    type="text"
+                                    type="number"
                                     value={this.state.inputs[i].count}
                                     onChange={this.handleInputChange.bind(this, "count", i)}
                                 />
                                 <TextField
+                                    className="inputOutputField"
                                     hintText="Input Resource"
                                     underlineShow={false}
                                     type="text"
@@ -122,18 +128,20 @@ export default class Step extends Component {
                     })}
                 </Paper>
 
-                <Paper zDepth={2} style={{width: "fit-content"}}>
+                <Paper zDepth={2} className="inputOutputContainer">
                     {this.state.outputs.map((x, i) => {
                         return (
                             <div key={i}>
                                 <TextField
+                                    className="inputOutputField"
                                     hintText="Output Count"
                                     underlineShow={false}
-                                    type="text"
+                                    type="number"
                                     value={this.state.outputs[i].count}
                                     onChange={this.handleOutputChange.bind(this, "count", i)}
                                 />
                                 <TextField
+                                    className="inputOutputField"
                                     hintText="Output Resource"
                                     underlineShow={false}
                                     type="text"

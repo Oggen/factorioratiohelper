@@ -1,0 +1,18 @@
+.container {
+    display: inline-block;
+    margin: 20px;
+    padding: 20px;
+    vertical-align: top;
+}
+
+.stepInput {
+    width: fit-content !important;
+}
+
+.inputOutputContainer {
+    margin-top: 22px;
+}
+
+.inputOutputField {
+    padding-left: 15px;
+}
