@@ -1,15 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
 import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reduxApp from './redux/reducers';
 
-const Index = () => (
-    <MuiThemeProvider>
+let store = createStore(reduxApp);
+
+render(
+  <MuiThemeProvider>
+    <Provider store={store}>
       <App />
-    </MuiThemeProvider>
-  );
+    </Provider>
+  </MuiThemeProvider>,
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+  document.getElementById('root')
+);
+
 registerServiceWorker();
