@@ -5,10 +5,11 @@ import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import reduxApp from './redux/reducers';
+import { reconcileInputOuputRows } from './redux/middleware';
 
-let store = createStore(reduxApp);
+let store = createStore(reduxApp, applyMiddleware(reconcileInputOuputRows));
 
 render(
   <MuiThemeProvider>
