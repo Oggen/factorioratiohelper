@@ -2,19 +2,14 @@ import * as actionTypes from "./actionTypes";
 import update from 'immutability-helper';
 
 const initialState = {
-    steps: [
-        {
-            inputs: [],
-            outputs: []
-        }
-    ]
+    steps: []
 };
 
 export default function reduxApp(state = initialState, action) {
     switch (action.type) {
 
         case actionTypes.CREATE_STEP:
-            return update(state, {steps: {$push: [{inputs: [], outputs: []}]}});
+            return update(state, {steps: {$push: [{count: "", speed: "", time: "", inputs: [], outputs: []}]}});
 
         case actionTypes.DELETE_STEP:
             return update(state, {steps: {$splice: [[action.index, 1]]}});
@@ -31,7 +26,7 @@ export default function reduxApp(state = initialState, action) {
 
 
         case actionTypes.CREATE_STEP_INPUT:
-            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{count: "", resource: ""}]}}}});
 
         case actionTypes.UPDATE_STEP_INPUT_COUNT:
             return update(state, {steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {count: {$set: action.value}}}}}});
@@ -44,7 +39,7 @@ export default function reduxApp(state = initialState, action) {
 
 
         case actionTypes.CREATE_STEP_OUTPUT:
-            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{count: "", resource: ""}]}}}});
 
         case actionTypes.UPDATE_STEP_OUTPUT_COUNT:
             return update(state, {steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {count: {$set: action.value}}}}}});
