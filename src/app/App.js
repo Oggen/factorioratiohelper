@@ -51,27 +51,34 @@ const calculateQuantites = steps => {
     let quantites = [];
 
     steps.forEach(step => {
+        if (step.count === "" || step.speed === "" || step.time === "") return;
+        const scale = step.count * step.speed / step.time;
+
         step.inputs.forEach(input => {
+            if (input.resource === "" || input.count === "") return;
+            const count = input.count * scale;
             let existing = quantites.find(x => x.resource === input.resource);
             if (existing) {
-                existing.count += input.count;
+                existing.count += count;
             }
             else {
                 quantites.push({
                     resource: input.resource,
-                    count: input.count
+                    count: count
                 });
             }
         });
         step.outputs.forEach(output => {
+            if (output.resource === "" || output.count === "") return;
+            const count = output.count * scale;
             let existing = quantites.find(x => x.resource === output.resource);
             if (existing) {
-                existing.count -= output.count;
+                existing.count -= count;
             }
             else {
                 quantites.push({
                     resource: output.resource,
-                    count: -output.count
+                    count: -count
                 });
             }
         });
@@ -105,9 +112,9 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default App = connect(
+const App = connect(
     mapStateToProps,
     mapDispatchToProps
 )(AppUI);
 
-
+export default App;

@@ -9,7 +9,9 @@ export default function reduxApp(state = initialState, action) {
     switch (action.type) {
 
         case actionTypes.CREATE_STEP:
-            return update(state, {steps: {$push: [{count: "", speed: "", time: "", inputs: [], outputs: []}]}});
+            return update(state, {steps: {$push: [{
+                count: "", speed: "", time: "", inputs: [{count: "", resource: ""}], outputs: [{count: "", resource: ""}]
+            }]}});
 
         case actionTypes.DELETE_STEP:
             return update(state, {steps: {$splice: [[action.index, 1]]}});

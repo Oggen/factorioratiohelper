@@ -5,11 +5,17 @@ import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reduxApp from './redux/reducers';
 import { reconcileInputOuputRows } from './redux/middleware';
 
-let store = createStore(reduxApp, applyMiddleware(reconcileInputOuputRows));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+let store = createStore(
+  reduxApp,
+  composeEnhancers(
+    applyMiddleware(reconcileInputOuputRows)
+  )
+);
 
 render(
   <MuiThemeProvider>

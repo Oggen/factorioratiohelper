@@ -1,4 +1,3 @@
-import update from 'immutability-helper';
 import * as actions from './actions';
 import * as actionTypes from './actionTypes';
 

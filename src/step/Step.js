@@ -95,9 +95,9 @@ const mapStateToProps = (state, {index}) => {
 
 const mapDispatchToProps = (dispatch, {index}) => {
     return {
-        handleCountChange: value => dispatch(updateStepCount(index, value)),
-        handleSpeedChange: value => dispatch(updateStepSpeed(index, value)),
-        handleTimeChange: value => dispatch(updateStepTime(index, value)),
+        handleCountChange: (e) => dispatch(updateStepCount(index, e.target.value)),
+        handleSpeedChange: (e) => dispatch(updateStepSpeed(index, e.target.value)),
+        handleTimeChange: (e) => dispatch(updateStepTime(index, e.target.value)),
         handleInputCountChange: (i, e) => dispatch(updateStepInputCount(index, i, e.target.value)),
         handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.target.value)),
         handleOutputCountChange: (i, e) => dispatch(updateStepOutputCount(index, i, e.target.value)),
@@ -105,7 +105,9 @@ const mapDispatchToProps = (dispatch, {index}) => {
     };
 };
 
-export default Step = connect(
+const Step = connect(
     mapStateToProps,
     mapDispatchToProps
 )(StepUI);
+
+export default Step;
