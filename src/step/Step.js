@@ -1,159 +1,111 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './step.css';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import { connect } from 'react-redux';
+import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource } from '../redux/actions';
 
-export default class Step extends Component {
-    constructor(props) {
-        super(props);
+const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange}) => (
+    <Paper className="container">
+        <TextField
+            className="stepInput"
+            floatingLabelText="Count"
+            name="count"
+            type="number"
+            value={step.count}
+            onChange={handleCountChange}
+        />
 
-        this.state = {
-            inputs: [{}],
-            outputs: [{}]
-        };
-    }
+        <TextField
+            className="stepInput"
+            floatingLabelText="Crafting Speed"
+            name="speed"
+            type="number"
+            value={step.speed}
+            onChange={handleSpeedChange}
+        />
 
-    dataUpdated() {
-        if (this.state.count === undefined || this.state.speed === undefined || !(this.state.time > 0)) {
-            return;
-        }
+        <TextField
+            className="stepInput"
+            floatingLabelText="Crafting Time"
+            name="time"
+            type="number"
+            value={step.time}
+            onChange={handleTimeChange}
+        />
         
-        const scale = this.state.speed / this.state.time;
+        <Paper zDepth={2} className="inputOutputContainer">
+            {step.inputs.map((x, i) => {
+                return (
+                    <div key={i}>
+                        <TextField
+                            className="inputOutputField"
+                            hintText="Input Count"
+                            underlineShow={false}
+                            type="number"
+                            value={step.inputs[i].count}
+                            onChange={handleInputCountChange.bind(this, i)}
+                        />
+                        <TextField
+                            className="inputOutputField"
+                            hintText="Input Resource"
+                            underlineShow={false}
+                            type="text"
+                            value={step.inputs[i].resource}
+                            onChange={handleInputResourceChange.bind(this, i)}
+                        />
+                        <Divider />
+                    </div>
+                );
+            })}
+        </Paper>
 
-        let inputs = [];
-        this.state.inputs.forEach(x => {
-            if (x.resource && x.count) {
-                inputs.push({
-                    resource: x.resource.trim().toLowerCase(),
-                    count: x.count * scale * this.state.count
-                });
-            }
-        });
-        
-        let outputs = [];
-        this.state.outputs.forEach(x => {
-            if (x.resource && x.count) {
-                outputs.push({
-                    resource: x.resource.trim().toLowerCase(),
-                    count: x.count * scale * this.state.count
-                });
-            }
-        });
+        <Paper zDepth={2} className="inputOutputContainer">
+            {step.outputs.map((x, i) => {
+                return (
+                    <div key={i}>
+                        <TextField
+                            className="inputOutputField"
+                            hintText="Output Count"
+                            underlineShow={false}
+                            type="number"
+                            value={step.outputs[i].count}
+                            onChange={handleOutputCountChange.bind(this, i)}
+                        />
+                        <TextField
+                            className="inputOutputField"
+                            hintText="Output Resource"
+                            underlineShow={false}
+                            type="text"
+                            value={step.outputs[i].resource}
+                            onChange={handleOutputResourceChange.bind(this, i)}
+                        />
+                        <Divider />
+                    </div>
+                );
+            })}
+        </Paper>
+    </Paper>
+);
 
-        this.props.update(inputs, outputs);
-    }
+const mapStateToProps = (state, {index}) => {
+    return { step: state.steps[index] }
+};
 
-    handleChange(e) {
-        this.setState({[e.target.name]: e.target.value}, this.dataUpdated);
-    }
+const mapDispatchToProps = (dispatch, {index}) => {
+    return {
+        handleCountChange: value => dispatch(updateStepCount(index, value)),
+        handleSpeedChange: value => dispatch(updateStepSpeed(index, value)),
+        handleTimeChange: value => dispatch(updateStepTime(index, value)),
+        handleInputCountChange: (i, e) => dispatch(updateStepInputCount(index, i, e.target.value)),
+        handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.target.value)),
+        handleOutputCountChange: (i, e) => dispatch(updateStepOutputCount(index, i, e.target.value)),
+        handleOutputResourceChange: (i, e) => dispatch(updateStepOutputResource(index, i, e.target.value))
+    };
+};
 
-    handleInputChange(property, index, e) {
-        let inputs = this.state.inputs.slice();
-        inputs[index][property] = e.target.value;
-        if (!inputs[index].count && !inputs[index].resource) {
-            inputs.splice(index, 1);
-        }
-        else if (index === inputs.length - 1) {
-            inputs.push({});
-        }
-        this.setState({inputs: inputs}, this.dataUpdated);
-    }
-
-    handleOutputChange(property, index, e) {
-        let outputs = this.state.outputs.slice();
-        outputs[index][property] = e.target.value;
-        if (!outputs[index].count && !outputs[index].resource) {
-            outputs.splice(index, 1);
-        }
-        else if (index === outputs.length - 1) {
-            outputs.push({});
-        }
-        this.setState({outputs: outputs}, this.dataUpdated);
-    }
-
-    render() {
-        return (
-            <Paper className="container">
-                <TextField
-                    className="stepInput"
-                    floatingLabelText="Count"
-                    name="count"
-                    type="number"
-                    value={this.state.count}
-                    onChange={this.handleChange.bind(this)}
-                />
-
-                <TextField
-                    className="stepInput"
-                    floatingLabelText="Crafting Speed"
-                    name="speed"
-                    type="number"
-                    value={this.state.speed}
-                    onChange={this.handleChange.bind(this)}
-                />
-
-                <TextField
-                    className="stepInput"
-                    floatingLabelText="Crafting Time"
-                    name="time"
-                    type="number"
-                    value={this.state.time}
-                    onChange={this.handleChange.bind(this)}
-                />
-                
-                <Paper zDepth={2} className="inputOutputContainer">
-                    {this.state.inputs.map((x, i) => {
-                        return (
-                            <div key={i}>
-                                <TextField
-                                    className="inputOutputField"
-                                    hintText="Input Count"
-                                    underlineShow={false}
-                                    type="number"
-                                    value={this.state.inputs[i].count}
-                                    onChange={this.handleInputChange.bind(this, "count", i)}
-                                />
-                                <TextField
-                                    className="inputOutputField"
-                                    hintText="Input Resource"
-                                    underlineShow={false}
-                                    type="text"
-                                    value={this.state.inputs[i].resource}
-                                    onChange={this.handleInputChange.bind(this, "resource", i)}
-                                />
-                                <Divider />
-                            </div>
-                        );
-                    })}
-                </Paper>
-
-                <Paper zDepth={2} className="inputOutputContainer">
-                    {this.state.outputs.map((x, i) => {
-                        return (
-                            <div key={i}>
-                                <TextField
-                                    className="inputOutputField"
-                                    hintText="Output Count"
-                                    underlineShow={false}
-                                    type="number"
-                                    value={this.state.outputs[i].count}
-                                    onChange={this.handleOutputChange.bind(this, "count", i)}
-                                />
-                                <TextField
-                                    className="inputOutputField"
-                                    hintText="Output Resource"
-                                    underlineShow={false}
-                                    type="text"
-                                    value={this.state.outputs[i].resource}
-                                    onChange={this.handleOutputChange.bind(this, "resource", i)}
-                                />
-                                <Divider />
-                            </div>
-                        );
-                    })}
-                </Paper>
-            </Paper>
-        );
-    }
-}
+export default Step = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StepUI);
