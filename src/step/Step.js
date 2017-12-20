@@ -6,6 +6,23 @@ import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
 import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource } from '../redux/actions';
 
+let inputResourceInputs = [];
+let outputResourceInputs = [];
+
+const handleInputCountSpaceKeyPress = (index, event) => {
+    if (event.key === " ") {
+        event.preventDefault();
+        inputResourceInputs[index].focus();
+    }
+}
+
+const handleOutputCountSpaceKeyPress = (index, event) => {
+    if (event.key === " ") {
+        event.preventDefault();
+        outputResourceInputs[index].focus();
+    }
+}
+
 const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange}) => (
     <Paper className="container">
         <TextField
@@ -46,6 +63,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
                             type="number"
                             value={step.inputs[i].count}
                             onChange={handleInputCountChange.bind(this, i)}
+                            onKeyPress={handleInputCountSpaceKeyPress.bind(this, i)}
                         />
                         <TextField
                             className="inputOutputField"
@@ -54,6 +72,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
                             type="text"
                             value={step.inputs[i].resource}
                             onChange={handleInputResourceChange.bind(this, i)}
+                            ref={element => { inputResourceInputs[i] = element }}
                         />
                         <Divider />
                     </div>
@@ -72,6 +91,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
                             type="number"
                             value={step.outputs[i].count}
                             onChange={handleOutputCountChange.bind(this, i)}
+                            onKeyPress={handleOutputCountSpaceKeyPress.bind(this, i)}
                         />
                         <TextField
                             className="inputOutputField"
@@ -80,6 +100,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
                             type="text"
                             value={step.outputs[i].resource}
                             onChange={handleOutputResourceChange.bind(this, i)}
+                            ref={element => { outputResourceInputs[i] = element }}
                         />
                         <Divider />
                     </div>
