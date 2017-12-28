@@ -1,16 +1,21 @@
-import * as actionTypes from "./actionTypes";
-import update from 'immutability-helper';
+import * as actionTypes from './actionTypes';
+import * as update from 'immutability-helper';
 
-const initialState = {
+import RootState from './rootState';
+import { RootAction } from './actions';
+import { Reducer } from 'redux';
+
+const initialState : RootState = {
     steps: []
 };
 
-export default function reduxApp(state = initialState, action) {
+
+const reduxApp : Reducer<RootState> = function(state = initialState, action : RootAction): RootState {
     switch (action.type) {
 
         case actionTypes.CREATE_STEP:
             return update(state, {steps: {$push: [{
-                count: "", speed: "", time: "", inputs: [{count: "", resource: ""}], outputs: [{count: "", resource: ""}]
+                count: '', speed: '', time: '', inputs: [{count: '', resource: ''}], outputs: [{count: '', resource: ''}]
             }]}});
 
         case actionTypes.DELETE_STEP:
@@ -28,7 +33,7 @@ export default function reduxApp(state = initialState, action) {
 
 
         case actionTypes.CREATE_STEP_INPUT:
-            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{count: "", resource: ""}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{count: '', resource: ''}]}}}});
 
         case actionTypes.UPDATE_STEP_INPUT_COUNT:
             return update(state, {steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {count: {$set: action.value}}}}}});
@@ -41,7 +46,7 @@ export default function reduxApp(state = initialState, action) {
 
 
         case actionTypes.CREATE_STEP_OUTPUT:
-            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{count: "", resource: ""}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{count: '', resource: ''}]}}}});
 
         case actionTypes.UPDATE_STEP_OUTPUT_COUNT:
             return update(state, {steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {count: {$set: action.value}}}}}});
@@ -57,3 +62,5 @@ export default function reduxApp(state = initialState, action) {
             return state;
     }
 }
+
+export default reduxApp;
