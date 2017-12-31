@@ -1,10 +1,6 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
-
 import RecipeSolver  from './solver';
 import { SolutionModel }  from './solver';
-import { Step, ResourceCount, Resource } from '../datacomponents/index';
+import { Step, ResourceCount } from '../datacomponents/index';
 
 const recipeDictionary: {[name: string]: Step} = {
     'electrolysis': {

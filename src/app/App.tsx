@@ -1,22 +1,22 @@
-import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
-import './app.css';
-import StepComponent from '../step/StepComponent';
-import FlatButton from 'material-ui/FlatButton';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import Subheader from 'material-ui/Subheader';
-import { createStep, RootAction } from '../redux/actions';
-import RootState from '../redux/rootState';
+import * as React from "react";
+import { connect, Dispatch } from "react-redux";
+import "./app.css";
+import StepComponent from "../step/StepComponent";
+import FlatButton from "material-ui/FlatButton";
+import Chip from "material-ui/Chip";
+import Avatar from "material-ui/Avatar";
+import Subheader from "material-ui/Subheader";
+import { createStep, RootAction } from "../redux/actions";
+import RootState from "../redux/rootState";
 
-import { ResourceCount, Step } from '../datacomponents/index';
+import { ResourceCount, Step } from "../datacomponents/index";
 
-interface StateProps{
+interface StateProps {
     inputs: ResourceCount[];
     outputs: ResourceCount[];
     steps: Step[];
 }
-interface DispatchProps{
+interface DispatchProps {
     handleAddStep: (event: React.MouseEvent<{}>) => void;
 }
 type AppUIProps = StateProps & DispatchProps;
@@ -54,22 +54,22 @@ const AppUI: React.StatelessComponent<AppUIProps> = ({inputs, outputs, steps, ha
                 );
             })}
             <div>
-                <FlatButton onClick={handleAddStep} label="Add Step" />   
+                <FlatButton onClick={handleAddStep} label="Add Step" />
             </div>
         </div>
     </div>
 );
 
-const calculateQuantites = (steps : Step[]) => {
-    let quantites : ResourceCount[] = [];
+const calculateQuantites = (steps: Step[]) => {
+    let quantites: ResourceCount[] = [];
 
     steps.forEach(step => {
-        //this check may not be needed if the step object is typed
-        //if (step.count === "" || step.speed === "" || step.time === "") return;
+        // this check may not be needed if the step object is typed
+        // if (step.count === "" || step.speed === "" || step.time === "") return;
         const scale = step.count * step.speed / step.time;
 
         step.inputs.forEach(input => {
-            if (input.resource === ""/* || input.count === ""*/) return;
+            if (input.resource === ""/* || input.count === ""*/) { return; }
             const count = input.count * scale;
             let existing = quantites.find(x => x.resource === input.resource);
             if (existing) {
@@ -83,7 +83,7 @@ const calculateQuantites = (steps : Step[]) => {
             }
         });
         step.outputs.forEach(output => {
-            if (output.resource === "" /*|| output.count === ""*/) return;
+            if (output.resource === "" /*|| output.count === ""*/) { return; }
             const count = output.count * scale;
             let existing = quantites.find(x => x.resource === output.resource);
             if (existing) {
@@ -111,16 +111,16 @@ const calculateQuantites = (steps : Step[]) => {
     outputs.forEach(x => x.count = Math.abs(x.count));
 
     return { inputs: inputs, outputs: outputs };
-}
+};
 
-const mapStateToProps = (state : RootState) : StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
     return {
         steps: state.steps,
         ...calculateQuantites(state.steps)
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<RootAction>) : DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     return {
         handleAddStep: () => dispatch(createStep())
     };

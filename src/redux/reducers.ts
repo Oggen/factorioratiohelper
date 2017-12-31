@@ -1,26 +1,26 @@
-import * as actionTypes from './actionTypes';
-import * as update from 'immutability-helper';
+import * as actionTypes from "./actionTypes";
+import * as update from "immutability-helper";
 
-import RootState from './rootState';
-import { RootAction } from './actions';
-import { Reducer } from 'redux';
+import RootState from "./rootState";
+import { RootAction } from "./actions";
+import { Reducer } from "redux";
 
-const initialState : RootState = {
+const initialState: RootState = {
     steps: []
 };
 
-
-const reduxApp : Reducer<RootState> = function(state = initialState, action : RootAction): RootState {
+const reduxApp: Reducer<RootState> = function(state: RootState = initialState, action: RootAction): RootState {
     switch (action.type) {
 
         case actionTypes.CREATE_STEP:
             return update(state, {steps: {$push: [{
-                count: '', speed: '', time: '', inputs: [{count: '', resource: ''}], outputs: [{count: '', resource: ''}]
+                count: "", speed: "", time: "",
+                inputs: [{count: "", resource: ""}],
+                outputs: [{count: "", resource: ""}]
             }]}});
 
         case actionTypes.DELETE_STEP:
             return update(state, {steps: {$splice: [[action.index, 1]]}});
-
 
         case actionTypes.UPDATE_STEP_COUNT:
             return update(state, {steps: {[action.index]: {count: {$set: action.value}}}});
@@ -31,36 +31,41 @@ const reduxApp : Reducer<RootState> = function(state = initialState, action : Ro
         case actionTypes.UPDATE_STEP_TIME:
             return update(state, {steps: {[action.index]: {time: {$set: action.value}}}});
 
-
         case actionTypes.CREATE_STEP_INPUT:
-            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{count: '', resource: ''}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {inputs: {$push: [{count: "", resource: ""}]}}}});
 
         case actionTypes.UPDATE_STEP_INPUT_COUNT:
-            return update(state, {steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {count: {$set: action.value}}}}}});
+            return update(state, {
+                steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {count: {$set: action.value}}}}}
+            });
 
         case actionTypes.UPDATE_STEP_INPUT_RESOURCE:
-            return update(state, {steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {resource: {$set: action.value}}}}}});
+            return update(state, {
+                steps: {[action.stepIndex]: {inputs: {[action.inputIndex]: {resource: {$set: action.value}}}}}
+            });
 
         case actionTypes.DELETE_STEP_INPUT:
             return update(state, {steps: {[action.stepIndex]: {inputs: {$splice: [[action.inputIndex, 1]]}}}});
 
-
         case actionTypes.CREATE_STEP_OUTPUT:
-            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{count: '', resource: ''}]}}}});
+            return update(state, {steps: {[action.stepIndex]: {outputs: {$push: [{count: "", resource: ""}]}}}});
 
         case actionTypes.UPDATE_STEP_OUTPUT_COUNT:
-            return update(state, {steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {count: {$set: action.value}}}}}});
+            return update(state, {
+                steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {count: {$set: action.value}}}}}
+            });
 
         case actionTypes.UPDATE_STEP_OUTPUT_RESOURCE:
-            return update(state, {steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {resource: {$set: action.value}}}}}});
+            return update(state, {
+                steps: {[action.stepIndex]: {outputs: {[action.outputIndex]: {resource: {$set: action.value}}}}}
+            });
 
         case actionTypes.DELETE_STEP_OUTPUT:
             return update(state, {steps: {[action.stepIndex]: {outputs: {$splice: [[action.outputIndex, 1]]}}}});
 
-
         default:
             return state;
     }
-}
+};
 
 export default reduxApp;

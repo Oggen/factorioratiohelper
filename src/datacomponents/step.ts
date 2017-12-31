@@ -1,6 +1,6 @@
-import ResourceCount from './resourceCount';
+import ResourceCount from "./resourceCount";
 
-export default class Step{
+export default class Step {
     count: number;
     speed: number;
     time: number;

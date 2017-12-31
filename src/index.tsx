@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { render } from 'react-dom';
-import './index.css';
-import App from './app/App';
-import registerServiceWorker from './registerServiceWorker';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import reduxApp from './redux/reducers';
-import { reconcileInputOuputRows } from './redux/middleware';
+import * as React from "react";
+import { render } from "react-dom";
+import "./index.css";
+import App from "./app/App";
+import registerServiceWorker from "./registerServiceWorker";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import reduxApp from "./redux/reducers";
+import { reconcileInputOuputRows } from "./redux/middleware";
 
+// eslint-disable-next-line
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(
   reduxApp,
@@ -24,7 +25,7 @@ render(
     </Provider>
   </MuiThemeProvider>,
 
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 registerServiceWorker();

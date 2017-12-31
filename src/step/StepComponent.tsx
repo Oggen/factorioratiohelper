@@ -1,16 +1,23 @@
-import * as React from 'react';
-import './step.css';
-import Paper from 'material-ui/Paper';
-import TextField from 'material-ui/TextField';
-import Divider from 'material-ui/Divider';
-import { connect, Dispatch } from 'react-redux';
+import * as React from "react";
+import "./step.css";
+import Paper from "material-ui/Paper";
+import TextField from "material-ui/TextField";
+import Divider from "material-ui/Divider";
+import { connect, Dispatch } from "react-redux";
 
-import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, RootAction } from '../redux/actions';
-import RootState from '../redux/rootState';
+import {
+    updateStepCount,
+    updateStepSpeed,
+    updateStepTime,
+    updateStepInputCount,
+    updateStepInputResource,
+    updateStepOutputCount,
+    updateStepOutputResource,
+    RootAction
+} from "../redux/actions";
+import RootState from "../redux/rootState";
 
-import { Step } from '../datacomponents/index';
-
-
+import { Step } from "../datacomponents/index";
 
 let inputResourceInputs: TextField[] = [];
 let outputResourceInputs: TextField[] = [];
@@ -31,22 +38,30 @@ interface DispatchProps {
 
 type StepProps = StateProps & DispatchProps;
 
-
 const handleInputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
-    if (event.key === ' ') {
+    if (event.key === " ") {
         event.preventDefault();
         inputResourceInputs[index].focus();
     }
-}
+};
 
 const handleOutputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
-    if (event.key === ' ') {
+    if (event.key === " ") {
         event.preventDefault();
         outputResourceInputs[index].focus();
     }
-}
+};
 
-const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange}) => (
+const StepUI: React.StatelessComponent<StepProps> = ({
+    step,
+    handleCountChange,
+    handleSpeedChange,
+    handleTimeChange,
+    handleInputCountChange,
+    handleInputResourceChange,
+    handleOutputCountChange,
+    handleOutputResourceChange
+}) => (
     <Paper className="container">
         <TextField
             className="stepInput"
@@ -95,7 +110,7 @@ const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, 
                             type="text"
                             value={step.inputs[i].resource}
                             onChange={handleInputResourceChange.bind({}, i)}
-                            ref={element => { if(element) inputResourceInputs[i] = element }}
+                            ref={element => { if (element) { inputResourceInputs[i] = element; } }}
                         />
                         <Divider />
                     </div>
@@ -123,7 +138,7 @@ const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, 
                             type="text"
                             value={step.outputs[i].resource}
                             onChange={handleOutputResourceChange.bind({}, i)}
-                            ref={element => { if(element) outputResourceInputs[i] = element }}
+                            ref={element => { if (element) { outputResourceInputs[i] = element; } }}
                         />
                         <Divider />
                     </div>
@@ -137,8 +152,8 @@ export interface StepUIOwnProps {
     index: number;
 }
 
-const mapStateToProps = (state : RootState, {index}: StepUIOwnProps): StateProps => {
-    return { step: state.steps[index] }
+const mapStateToProps = (state: RootState, {index}: StepUIOwnProps): StateProps => {
+    return { step: state.steps[index] };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>, {index}: StepUIOwnProps): DispatchProps => {
