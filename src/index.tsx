@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
 import './index.css';
 import App from './app/App';
@@ -9,7 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxApp from './redux/reducers';
 import { reconcileInputOuputRows } from './redux/middleware';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(
   reduxApp,
   composeEnhancers(
