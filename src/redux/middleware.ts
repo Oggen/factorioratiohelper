@@ -19,6 +19,7 @@ const reconcileInputOuputRowsTrueType = (store: MiddlewareAPI<RootState>) =>
             actions.updateStepOutputResource
         ].map(getReturnOfExpression);
         type realCompType = typeof compositeType2[number];
+        // tslint:disable-next-line:no-any
         let typedAction = action as any as realCompType; // dang-erous
         
         const stepIndex = typedAction.stepIndex;
