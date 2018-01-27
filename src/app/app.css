@@ -1,7 +1,22 @@
 .content {
     height: 100%;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
+}
+
+.resources {
+    flex: 1 1 auto;
+    margin: 10px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: row;
+}
+
+.outputs{
+    display: flex;
+    flex-direction: row;
 }
 
 .chips {

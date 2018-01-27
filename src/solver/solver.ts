@@ -8,12 +8,11 @@ export class RecipeModel{
         this.resources = [];
 
         //the multiple of this recipe that is complete in 1 time unit
-        var productionRatio = source.speed / source.time;
         source.inputs.forEach(value => {
-            this.resources.push({count: -value.count * productionRatio, resource: value.resource})
+            this.resources.push({count: -value.count / source.time , resource: value.resource})
         });
         source.outputs.forEach(value => {
-            this.resources.push({count: value.count * productionRatio, resource: value.resource})
+            this.resources.push({count: value.count  / source.time, resource: value.resource})
         });
     }
 }
@@ -149,7 +148,6 @@ export default class RecipeSolver{
                 colMetadata.push({output: {resource: resource, count: 1000000000}});
             })
         }
-
         var file = "";
         var callbk = (str: string) => {file += str + "\n"}
         glpk.glp_write_lp(problem, null, callbk);

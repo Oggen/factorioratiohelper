@@ -1,122 +1,62 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import './app.css';
-import StepComponent from '../step/StepComponent';
+
 import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
+
+
 import { createStep, RootAction } from '../redux/actions';
 import RootState from '../redux/rootState';
 
+
+import RecipesComponent from '../recipes/RecipesComponent';
 import { ResourceCount, Step } from '../datacomponents/index';
+import RecipeSolver from '../solver/solver';
+import ResourceInputComponent from '../resourceInput/ResourceInputComponent';
+import ResourceSetupComponent from '../resourceSetup/ResourceSetup';
 
 interface StateProps{
     inputs: ResourceCount[];
     outputs: ResourceCount[];
-    steps: Step[];
 }
 interface DispatchProps{
     handleAddStep: (event: React.MouseEvent<{}>) => void;
 }
 type AppUIProps = StateProps & DispatchProps;
 
-const AppUI: React.StatelessComponent<AppUIProps> = ({inputs, outputs, steps, handleAddStep}) => (
-    <div className="content">
-        {inputs.length > 0 && <Subheader>Inputs</Subheader>}
-        <div className="chips">
-            {inputs.map((x, i) => {
-                return (
-                    <Chip key={i} className="chip">
-                        <Avatar>{+x.count.toFixed(2)}</Avatar>
-                        {x.resource}
-                    </Chip>
-                );
-            })}
-        </div>
-
-        {outputs.length > 0 && <Subheader>Outputs</Subheader>}
-        <div className="chips">
-            {outputs.map((x, i) => {
-                return (
-                    <Chip key={i} className="chip">
-                        <Avatar>{+x.count.toFixed(2)}</Avatar>
-                        {x.resource}
-                    </Chip>
-                );
-            })}
-        </div>
-
-        <div className="steps">
-            {steps.map((x, i) => {
-                return (
-                    <StepComponent key={i} index={i} />
-                );
-            })}
-            <div>
-                <FlatButton onClick={handleAddStep} label="Add Step" />   
-            </div>
-        </div>
-    </div>
+const AppUI: React.StatelessComponent<AppUIProps> = ({inputs, outputs, handleAddStep}) => (
+    <Tabs>
+        <Tab label="Resource Counts">
+            <ResourceSetupComponent />
+        </Tab>
+        <Tab label="Recepies">
+            <RecipesComponent/>
+        </Tab>
+    </Tabs>
 );
 
-const calculateQuantites = (steps : Step[]) => {
-    let quantites : ResourceCount[] = [];
+/*
+const calculateQuantites = (steps : Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]): {inputs: ResourceCount[], outputs: ResourceCount[]} => {
+    
+    let solver  = new RecipeSolver(steps, desiredOutputs, inputWeights);
 
-    steps.forEach(step => {
-        //this check may not be needed if the step object is typed
-        //if (step.count === "" || step.speed === "" || step.time === "") return;
-        const scale = step.count * step.speed / step.time;
+    const solution = solver.findSolution();
 
-        step.inputs.forEach(input => {
-            if (input.resource === ""/* || input.count === ""*/) return;
-            const count = input.count * scale;
-            let existing = quantites.find(x => x.resource === input.resource);
-            if (existing) {
-                existing.count += count;
-            }
-            else {
-                quantites.push({
-                    resource: input.resource,
-                    count: count
-                });
-            }
-        });
-        step.outputs.forEach(output => {
-            if (output.resource === "" /*|| output.count === ""*/) return;
-            const count = output.count * scale;
-            let existing = quantites.find(x => x.resource === output.resource);
-            if (existing) {
-                existing.count -= count;
-            }
-            else {
-                quantites.push({
-                    resource: output.resource,
-                    count: -count
-                });
-            }
-        });
-    });
-
-    let inputs = quantites.filter(x => x.count > 0);
-    let outputs = quantites.filter(x => x.count < 0);
-
-    let resources = inputs.map(x => x.resource);
-    outputs.forEach(x => {
-        if (!resources.some(y => y === x.resource)) {
-            resources.push(x.resource);
-        }
-    });
-
-    outputs.forEach(x => x.count = Math.abs(x.count));
-
-    return { inputs: inputs, outputs: outputs };
-}
+    return {
+        inputs: solution.realInputs,
+        outputs: solution.extraOutputs
+    }
+}*/
 
 const mapStateToProps = (state : RootState) : StateProps => {
     return {
-        steps: state.steps,
-        ...calculateQuantites(state.steps)
+        inputs: state.inputRatios,
+        outputs: state.outputRequested
     };
 };
 

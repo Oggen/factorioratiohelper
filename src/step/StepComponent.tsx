@@ -5,12 +5,16 @@ import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import { connect, Dispatch } from 'react-redux';
 
-import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, RootAction } from '../redux/actions';
+import { 
+    updateStepTime,
+    updateStepInputCount,
+    updateStepInputResource,
+    updateStepOutputCount,
+    updateStepOutputResource,
+    RootAction } from '../redux/actions';
 import RootState from '../redux/rootState';
 
 import { Step } from '../datacomponents/index';
-
-
 
 let inputResourceInputs: TextField[] = [];
 let outputResourceInputs: TextField[] = [];
@@ -19,8 +23,6 @@ interface StateProps {
     step: Step;
 }
 interface DispatchProps {
-    handleCountChange: React.FormEventHandler<HTMLInputElement>;
-    handleSpeedChange: React.FormEventHandler<HTMLInputElement>;
     handleTimeChange: React.FormEventHandler<HTMLInputElement>;
 
     handleInputCountChange: (i: number, e: React.FormEvent<HTMLInputElement>) => void;
@@ -46,26 +48,14 @@ const handleOutputCountSpaceKeyPress = (index: number, event: React.KeyboardEven
     }
 }
 
-const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange}) => (
+const StepUI : React.StatelessComponent<StepProps> = (
+        {step,
+        handleTimeChange,
+        handleInputCountChange,
+        handleInputResourceChange,
+        handleOutputCountChange,
+        handleOutputResourceChange}) => (
     <Paper className="container">
-        <TextField
-            className="stepInput"
-            floatingLabelText="Count"
-            name="count"
-            type="number"
-            value={step.count}
-            onChange={handleCountChange}
-        />
-
-        <TextField
-            className="stepInput"
-            floatingLabelText="Crafting Speed"
-            name="speed"
-            type="number"
-            value={step.speed}
-            onChange={handleSpeedChange}
-        />
-
         <TextField
             className="stepInput"
             floatingLabelText="Crafting Time"
@@ -95,7 +85,7 @@ const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, 
                             type="text"
                             value={step.inputs[i].resource}
                             onChange={handleInputResourceChange.bind({}, i)}
-                            ref={element => { if(element) inputResourceInputs[i] = element }}
+                            ref={element => { if(element) {inputResourceInputs[i] = element;} }}
                         />
                         <Divider />
                     </div>
@@ -123,7 +113,7 @@ const StepUI : React.StatelessComponent<StepProps> = ({step, handleCountChange, 
                             type="text"
                             value={step.outputs[i].resource}
                             onChange={handleOutputResourceChange.bind({}, i)}
-                            ref={element => { if(element) outputResourceInputs[i] = element }}
+                            ref={element => { if(element) {outputResourceInputs[i] = element;} }}
                         />
                         <Divider />
                     </div>
@@ -143,8 +133,6 @@ const mapStateToProps = (state : RootState, {index}: StepUIOwnProps): StateProps
 
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>, {index}: StepUIOwnProps): DispatchProps => {
     return {
-        handleCountChange: (e) => dispatch(updateStepCount(index, Number(e.currentTarget.value))),
-        handleSpeedChange: (e) => dispatch(updateStepSpeed(index, Number(e.currentTarget.value))),
         handleTimeChange: (e) => dispatch(updateStepTime(index, Number(e.currentTarget.value))),
         handleInputCountChange: (i, e) => dispatch(updateStepInputCount(index, i, Number(e.currentTarget.value))),
         handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.currentTarget.value)),

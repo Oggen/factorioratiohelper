@@ -1,10 +1,8 @@
 import ResourceCount from './resourceCount';
 
 export default class Step{
-    count: number;
-    speed: number;
-    time: number;
+    time: number = 0;
 
-    inputs: ResourceCount[];
-    outputs: ResourceCount[];
+    inputs: ResourceCount[] = [new ResourceCount];
+    outputs: ResourceCount[] = [new ResourceCount];
 }
