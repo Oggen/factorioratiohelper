@@ -49,7 +49,7 @@ function registerValidSW(swUrl: string) {
     .then(registration => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
-        if(installingWorker){
+        if(installingWorker) {
           installingWorker.onstatechange = () => {
             if (installingWorker.state === 'installed') {
               if (navigator.serviceWorker.controller) {

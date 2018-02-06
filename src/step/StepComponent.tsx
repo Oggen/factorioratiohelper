@@ -33,22 +33,21 @@ interface DispatchProps {
 
 type StepProps = StateProps & DispatchProps;
 
-
 const handleInputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
     if (event.key === ' ') {
         event.preventDefault();
         inputResourceInputs[index].focus();
     }
-}
+};
 
 const handleOutputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
     if (event.key === ' ') {
         event.preventDefault();
         outputResourceInputs[index].focus();
     }
-}
+};
 
-const StepUI : React.StatelessComponent<StepProps> = (
+const StepUI: React.StatelessComponent<StepProps> = (
         {step,
         handleTimeChange,
         handleInputCountChange,
@@ -85,7 +84,7 @@ const StepUI : React.StatelessComponent<StepProps> = (
                             type="text"
                             value={step.inputs[i].resource}
                             onChange={handleInputResourceChange.bind({}, i)}
-                            ref={element => { if(element) {inputResourceInputs[i] = element;} }}
+                            ref={element => { if (element) {inputResourceInputs[i] = element; } }}
                         />
                         <Divider />
                     </div>
@@ -113,7 +112,7 @@ const StepUI : React.StatelessComponent<StepProps> = (
                             type="text"
                             value={step.outputs[i].resource}
                             onChange={handleOutputResourceChange.bind({}, i)}
-                            ref={element => { if(element) {outputResourceInputs[i] = element;} }}
+                            ref={element => { if (element) {outputResourceInputs[i] = element; } }}
                         />
                         <Divider />
                     </div>
@@ -127,8 +126,8 @@ export interface StepUIOwnProps {
     index: number;
 }
 
-const mapStateToProps = (state : RootState, {index}: StepUIOwnProps): StateProps => {
-    return { step: state.steps[index] }
+const mapStateToProps = (state: RootState, {index}: StepUIOwnProps): StateProps => {
+    return { step: state.steps[index] };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>, {index}: StepUIOwnProps): DispatchProps => {

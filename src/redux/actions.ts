@@ -103,7 +103,6 @@ export const updateCount = createAction(
     })
 );
 
-
 export const setExtraOutput = createAction(
     actionTypes.SET_EXTRA_OUTPUT,
     (outputs: ResourceCount[]) => ({
@@ -126,7 +125,7 @@ export const actions = {
     createStepOutput, updateStepOutputCount, updateStepOutputResource, deleteStepOutput,
     createResourceCount, deleteResourceCount, updateResource, updateCount,
     setExtraOutput, setActualInput
-}
+};
 
 const returnOfActions =
   Object.values(actions).map(getReturnOfExpression);

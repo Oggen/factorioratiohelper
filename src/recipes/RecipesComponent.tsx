@@ -8,10 +8,10 @@ import RootState from '../redux/rootState';
 
 import { Step } from '../datacomponents/index';
 
-interface StateProps{
+interface StateProps {
     steps: Step[];
 }
-interface DispatchProps{
+interface DispatchProps {
     handleAddStep: (event: React.MouseEvent<{}>) => void;
 }
 type RecipesComponentUIProps = StateProps & DispatchProps;
@@ -31,14 +31,13 @@ const RecipesComponentUI: React.StatelessComponent<RecipesComponentUIProps> = ({
     </div>
 );
 
-
-const mapStateToProps = (state : RootState) : StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
     return {
         steps: state.steps
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<RootAction>) : DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     return {
         handleAddStep: () => dispatch(createStep())
     };

@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxApp from './redux/reducers';
 import { reconcileInputOuputRows } from './redux/middleware';
 
+// tslint:disable-next-line:no-any
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(
   reduxApp,

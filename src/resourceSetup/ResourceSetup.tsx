@@ -3,10 +3,7 @@ import { connect, Dispatch } from 'react-redux';
 import '../app/app.css';
 
 import FlatButton from 'material-ui/FlatButton';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import {
   Table,
@@ -17,29 +14,33 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-
-import { createStep, setExtraOutput, setActualInput, RootAction } from '../redux/actions';
+import { setExtraOutput, setActualInput, RootAction } from '../redux/actions';
 import RootState from '../redux/rootState';
 
-
-import RecipesComponent from '../recipes/RecipesComponent';
 import { ResourceCount, Step } from '../datacomponents/index';
 import RecipeSolver from '../solver/solver';
 import ResourceInputComponent from '../resourceInput/ResourceInputComponent';
 
-interface StateProps{
+interface StateProps {
     realInputs: ResourceCount[];
     extraOutputs: ResourceCount[];
     allSteps: Step[];
     inputWeights: ResourceCount[];
     outputRequested: ResourceCount[];
 }
-interface DispatchProps{
-    handleDoCalc: (steps : Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]) => void;
+interface DispatchProps {
+    handleDoCalc: (steps: Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]) => void;
 }
 type ResourceSetupUIProps = StateProps & DispatchProps;
 
-const ResourceSetupUI: React.StatelessComponent<ResourceSetupUIProps> = ({realInputs, extraOutputs, handleDoCalc, allSteps, inputWeights, outputRequested}) => (
+const ResourceSetupUI: React.StatelessComponent<ResourceSetupUIProps> = (
+    {
+        realInputs, 
+        extraOutputs, 
+        handleDoCalc, 
+        allSteps, 
+        inputWeights, 
+        outputRequested}) => (
     <div className="content">
         <div>
             <FlatButton onClick={(e) => handleDoCalc(allSteps, inputWeights, outputRequested)} label="Calc" />
@@ -59,14 +60,14 @@ const ResourceSetupUI: React.StatelessComponent<ResourceSetupUIProps> = ({realIn
                 <Table>
                     <TableHeader
                             displaySelectAll={false}
-                            adjustForCheckbox={false}>
+                            adjustForCheckbox={false}
+                    >
                     <TableRow>
                         <TableHeaderColumn>Name</TableHeaderColumn>
                         <TableHeaderColumn>Amount</TableHeaderColumn>
                     </TableRow>
                     </TableHeader>
-                    <TableBody
-                            displayRowCheckbox={false}>
+                    <TableBody displayRowCheckbox={false}>
                         {realInputs.map((value, i) => (
                             <TableRow key={i} >
                                 <TableRowColumn>{value.resource}</TableRowColumn>
@@ -80,14 +81,14 @@ const ResourceSetupUI: React.StatelessComponent<ResourceSetupUIProps> = ({realIn
                 <Table>
                     <TableHeader
                             displaySelectAll={false}
-                            adjustForCheckbox={false}>
+                            adjustForCheckbox={false}
+                    >
                     <TableRow>
                         <TableHeaderColumn>Name</TableHeaderColumn>
                         <TableHeaderColumn>Amount</TableHeaderColumn>
                     </TableRow>
                     </TableHeader>
-                    <TableBody
-                            displayRowCheckbox={false}>
+                    <TableBody displayRowCheckbox={false}>
                         {extraOutputs.map((value, i) => (
                             <TableRow key={i} >
                                 <TableRowColumn>{value.resource}</TableRowColumn>
@@ -101,26 +102,27 @@ const ResourceSetupUI: React.StatelessComponent<ResourceSetupUIProps> = ({realIn
     </div>
 );
 
-
-const calculateQuantites = (steps : Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]): {inputs: ResourceCount[], outputs: ResourceCount[]} => {
+const calculateQuantites = (steps: Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[])
+        : {inputs: ResourceCount[], outputs: ResourceCount[]} => {
     
     let solver  = new RecipeSolver(
         steps.map(step => ({
             time: step.time,
-            inputs: step.inputs.filter(input => input.count > 0 && input.resource != null && input.resource != ''),
-            outputs: step.outputs.filter(input => input.count > 0 && input.resource != null && input.resource != '')
-        }))
-        , desiredOutputs, inputWeights);
+            inputs: step.inputs.filter(input => input.count > 0 && input.resource !== null && input.resource !== ''),
+            outputs: step.outputs.filter(input => input.count > 0 && input.resource !== null && input.resource !== '')
+        })), 
+        desiredOutputs, 
+        inputWeights);
 
     const solution = solver.findSolution();
 
     return {
         inputs: solution.realInputs,
         outputs: solution.extraOutputs
-    }
-}
+    };
+};
 
-const mapStateToProps = (state : RootState) : StateProps => {
+const mapStateToProps = (state: RootState): StateProps => {
     return {
         realInputs: state.actualInputs,
         extraOutputs: state.extraOutputs,
@@ -130,9 +132,9 @@ const mapStateToProps = (state : RootState) : StateProps => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<RootAction>) : DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     return {
-        handleDoCalc: (steps : Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]) => {
+        handleDoCalc: (steps: Step[], inputWeights: ResourceCount[], desiredOutputs: ResourceCount[]) => {
             let output = calculateQuantites(steps, inputWeights, desiredOutputs);
 
             dispatch(setExtraOutput(output.outputs));

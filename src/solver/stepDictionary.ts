@@ -1,4 +1,4 @@
-import { Step, ResourceCount } from '../datacomponents/index';
+import { Step } from '../datacomponents/index';
 
 export const recipeDictionary: {[name: string]: Step} = {
     'electrolysis': {
@@ -13,7 +13,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'slag_crush': {
-        time: 1/1.5,
+        time: 1 / 1.5,
         inputs: [
             {resource: 'slag', count: 1},
         ],
@@ -22,7 +22,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'mineralize_water': {
-        time: 1/1.5,
+        time: 1 / 1.5,
         inputs: [
             {resource: 'crushed_stone', count: 10},
             {resource: 'water', count: 100},
@@ -42,7 +42,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'cellulose_fiber': {
-        time: 3/1.5,
+        time: 3 / 1.5,
         inputs: [
             {resource: 'green_algea', count: 10},
         ],
@@ -60,7 +60,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'burn_pellets': {
-        time: 2/1.5,
+        time: 2 / 1.5,
         inputs: [
             {resource: 'wood_pellets', count: 1},
         ],
@@ -69,7 +69,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'slag_slurry': {
-        time: 3/1.25,
+        time: 3 / 1.25,
         inputs: [
             {resource: 'slag', count: 5},
             {resource: 'sulfuric_acid', count: 12},
@@ -79,7 +79,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'sulfur_dioxide_to_acid': {
-        time: 2/1.25,
+        time: 2 / 1.25,
         inputs: [
             {resource: 'sulfur_dioxide_gas', count: 60},
             {resource: 'purified_water', count: 40},
@@ -89,7 +89,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'sulfur_burning': {
-        time: 2/1.25,
+        time: 2 / 1.25,
         inputs: [
             {resource: 'sulfur', count: 1},
             {resource: 'oxygen', count: 50},
@@ -99,7 +99,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'water_synthesis': {
-        time: 2/1.25,
+        time: 2 / 1.25,
         inputs: [
             {resource: 'oxygen', count: 60},
             {resource: 'hydrogen', count: 90},
@@ -120,7 +120,7 @@ export const recipeDictionary: {[name: string]: Step} = {
         ]
     },
     'slurry_coal_filtering': {
-        time: 4/1.5,
+        time: 4 / 1.5,
         inputs: [
             {resource: 'coal_filter', count: 1},
             {resource: 'slag_slurry', count: 50},
@@ -169,7 +169,7 @@ export const recipeDictionary: {[name: string]: Step} = {
             {resource: 'iron_plate', count: 3},
         ]
     },
-    'gear':{
+    'gear': {
         time: 1,
         inputs: [
             {resource: 'iron_plate', count: 2},
@@ -178,4 +178,4 @@ export const recipeDictionary: {[name: string]: Step} = {
             {resource: 'gear', count: 1},
         ]
     }
-}
+};
