@@ -1,4 +1,4 @@
-import ResourceCount from './resourceCount';
+import ResourceCount from "./resourceCount";
 
 export default class Step {
     time: number = 0;
