@@ -44,6 +44,18 @@ const reduxApp: Reducer<RootState> = function(state: RootState = initialState, a
                 {steps: {[action.index]: 
                     {time: {$set: action.value}}
                 }});
+        case actionTypes.UPDATE_STEP_NAME:
+            return update(
+                state, 
+                {steps: {[action.index]: 
+                    {name: {$set: action.value}}
+                }});
+        case actionTypes.TOGGLE_STEP_MINIMIZED:
+            return update(
+                state, 
+                {steps: {[action.index]: 
+                    {minimized: {$set: !state.steps[action.index].minimized}}
+                }});
 
         case actionTypes.CREATE_STEP_INPUT:
             return update(

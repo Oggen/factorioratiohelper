@@ -19,6 +19,20 @@ export const updateStepTime = createAction(
     })
 );
 
+export const updateStepName = createAction(
+    actionTypes.UPDATE_STEP_NAME, 
+    (index: number, value: string) => ({type: actionTypes.UPDATE_STEP_NAME,
+        index, value
+    })
+);
+
+export const toggleStepMinimized = createAction(
+    actionTypes.TOGGLE_STEP_MINIMIZED, 
+    (index: number) => ({type: actionTypes.TOGGLE_STEP_MINIMIZED,
+        index
+    })
+);
+
 export const createStepInput = createAction(
     actionTypes.CREATE_STEP_INPUT, 
     (stepIndex: number) => ({type: actionTypes.CREATE_STEP_INPUT,
@@ -120,7 +134,7 @@ export const setActualInput = createAction(
 
 export const actions = {
     createStep, deleteStep,
-    updateStepTime,
+    updateStepTime, updateStepName, toggleStepMinimized,
     createStepInput, updateStepInputCount, updateStepInputResource, deleteStepInput,
     createStepOutput, updateStepOutputCount, updateStepOutputResource, deleteStepOutput,
     createResourceCount, deleteResourceCount, updateResource, updateCount,

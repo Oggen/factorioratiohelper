@@ -1,7 +1,7 @@
 import RecipeSolver  from './solver';
 import { SolutionModel }  from './solver';
 import { Step, ResourceCount } from '../datacomponents/index';
-import {recipeDictionary} from './stepDictionary';
+import { recipeDictionary } from './stepDictionary';
 
 describe('Recipe Solver', () => {
     it('Solves iron ore to gear', () => {
