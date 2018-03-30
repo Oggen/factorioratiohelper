@@ -1,9 +1,9 @@
-import * as actionTypes from './actionTypes';
-import * as update from 'immutability-helper';
+import * as actionTypes from "./actionTypes";
+import * as update from "immutability-helper";
 
-import RootState from './rootState';
-import { RootAction } from './actions';
-import { Reducer } from 'redux';
+import RootState from "./rootState";
+import { RootAction } from "./actions";
+import { Reducer } from "redux";
 
 import Step from '../datacomponents/step';
 import { ResourceCount } from '../datacomponents/index';

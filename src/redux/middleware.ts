@@ -1,9 +1,9 @@
-import { getReturnOfExpression } from 'react-redux-typescript';
+import { getReturnOfExpression } from "react-redux-typescript";
 
-import { actions, RootAction } from './actions';
-import * as actionTypes from './actionTypes';
-import { Middleware, Action, MiddlewareAPI, Dispatch } from 'redux';
-import RootState from './rootState';
+import { actions, RootAction } from "./actions";
+import * as actionTypes from "./actionTypes";
+import { Middleware, Action, MiddlewareAPI, Dispatch } from "redux";
+import RootState from "./rootState";
 
 const reconcileInputOuputRowsTrueType = 
     (store: MiddlewareAPI<RootState>) => 
@@ -32,12 +32,12 @@ const reconcileInputOuputRowsTrueType =
         let emptyInputIndices: number[] = [];
         let emptyOutputIndices: number[] = [];
         state.steps[stepIndex].inputs.forEach((input, index) => {
-            if (/*input.count === '' &&*/ input.resource === '') {
+            if (/*input.count === "" &&*/ input.resource === "") {
                 emptyInputIndices.push(index);
             }
         });
         state.steps[stepIndex].outputs.forEach((output, index) => {
-            if (/*output.count === '' &&*/ output.resource === '') {
+            if (/*output.count === "" &&*/ output.resource === "") {
                 emptyOutputIndices.push(index);
             }
         });

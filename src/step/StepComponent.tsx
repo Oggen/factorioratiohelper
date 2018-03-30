@@ -39,14 +39,14 @@ interface DispatchProps {
 type StepProps = StateProps & DispatchProps;
 
 const handleInputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
-    if (event.key === ' ') {
+    if (event.key === " ") {
         event.preventDefault();
         inputResourceInputs[index].focus();
     }
 };
 
 const handleOutputCountSpaceKeyPress = (index: number, event: React.KeyboardEvent<TextField>) => {
-    if (event.key === ' ') {
+    if (event.key === " ") {
         event.preventDefault();
         outputResourceInputs[index].focus();
     }
