@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "gh-pages": "^1.1.0",
-    "immutability-helper": "^2.6.2",
-    "material-ui": "^0.20.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-redux-typescript": "^3.0.0-rc.3",
+    "gh-pages": "1.1.0",
+    "immutability-helper": "2.6.2",
+    "material-ui": "0.20.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-redux": "5.0.6",
+    "react-redux-typescript": "3.0.0-rc.3",
     "react-scripts-ts": "2.8.0",
-    "redux": "^3.7.2",
-    "typesafe-actions": "^1.0.0"
+    "redux": "3.7.2",
+    "typesafe-actions": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -23,14 +23,15 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/immutability-helper": "^2.0.15",
-    "@types/jest": "^21.1.10",
-    "@types/material-ui": "^0.20.0",
-    "@types/node": "^8.5.2",
-    "@types/react": "^16.0.31",
-    "@types/react-dom": "^16.0.3",
-    "@types/react-redux": "^5.0.14",
-    "@types/redux": "^3.6.0"
+    "@types/immutability-helper": "2.0.15",
+    "@types/jest": "21.1.10",
+    "@types/material-ui": "0.20.0",
+    "@types/node": "8.5.2",
+    "@types/react": "16.0.31",
+    "@types/react-dom": "16.0.3",
+    "@types/react-redux": "5.0.14",
+    "@types/redux": "3.6.0",
+    "typescript": "2.6.2"
   },
-  "homepage": "https://oggen.github.io/factorioratiohelper/"
+  "homepage": "https://dsmiller95.github.io/factorioratiohelper/"
 }
