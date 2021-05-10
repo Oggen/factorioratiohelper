@@ -8,12 +8,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reduxApp from './redux/reducers';
 import { reconcileInputOuputRows } from './redux/middleware';
+import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(
   reduxApp,
   composeEnhancers(
-    applyMiddleware(reconcileInputOuputRows)
+    applyMiddleware(reconcileInputOuputRows, thunk)
   )
 );
 

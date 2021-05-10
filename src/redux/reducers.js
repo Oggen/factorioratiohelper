@@ -63,6 +63,9 @@ export default function reduxApp(state = initialState, action) {
 
         case actionTypes.CANCEL_CANCEL_OUT:
             return update(state, {cancelOutWith: {$set: null}});
+        
+        case actionTypes.IMPORT_STEPS:
+            return update(state, {steps: {$set: action.steps}});
 
         default:
             return state;
@@ -71,7 +74,6 @@ export default function reduxApp(state = initialState, action) {
 
 function calculateCancelOut(state, resource) {
     if (state.cancelOutWith === null) return null;
-    console.log("calculating canceling", state, resource);
     const ioWithoutStep = calculateQuantities(state.steps.filter((_, i) => i !== state.cancelOutWith));
     const normalizedIoOfStep = calculateQuantities(state.steps.filter((_, i) => i === state.cancelOutWith).map(x => ({ ...x, count: 1 })));
     const isInput = ioWithoutStep.inputs.some(x => x.resource === resource);

@@ -55,3 +55,7 @@ export function finalizeCancelOut(resource) {
 export function cancelCancelOut() {
     return { type: actionTypes.CANCEL_CANCEL_OUT };
 }
+
+export function importSteps(steps) {
+    return { steps, type: actionTypes.IMPORT_STEPS };
+}

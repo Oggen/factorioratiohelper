@@ -6,9 +6,10 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import { createStep, finalizeCancelOut } from '../redux/actions';
+import { createStep, finalizeCancelOut, importSteps } from '../redux/actions';
+import { compressToEncodedURIComponent as compress, decompressFromEncodedURIComponent as decompress } from 'lz-string';
 
-const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleOutputClick}) => (
+const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleOutputClick, handleExport, handleImport}) => (
     <div className="content">
         {inputs.length > 0 && <Subheader>Inputs</Subheader>}
         <div className="chips">
@@ -41,7 +42,9 @@ const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleO
                 );
             })}
             <div>
-                <FlatButton onClick={handleAddStep} label="Add Step" />   
+                <FlatButton onClick={handleAddStep} label="Add Step" />
+                <FlatButton onClick={handleExport} label="Export All to Clipboard" />
+                <FlatButton onClick={handleImport} label="Import All from Clipboard" />
             </div>
         </div>
     </div>
@@ -110,7 +113,15 @@ const mapDispatchToProps = dispatch => {
     return {
         handleAddStep: () => dispatch(createStep()),
         handleInputClick: (x, _) => dispatch(finalizeCancelOut(x)),
-        handleOutputClick: (x, _) => dispatch(finalizeCancelOut(x))
+        handleOutputClick: (x, _) => dispatch(finalizeCancelOut(x)),
+        handleExport: () => dispatch(async (_, getState) => {
+            await navigator.clipboard.writeText(getState().steps.map(x => compress(JSON.stringify(x))).join())
+        }),
+        handleImport: () => dispatch(async dispatch => {
+            const clipped = await navigator.clipboard.readText();
+            const steps = clipped.split(",").map(x => JSON.parse(decompress(x)));
+            dispatch(importSteps(steps));
+        })
     };
 };
 
