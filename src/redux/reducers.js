@@ -59,7 +59,7 @@ export default function reduxApp(state = initialState, action) {
 
         case actionTypes.FINALIZE_CANCEL_OUT:
             const cancelAmount = calculateCancelOut(state, action.resource);
-            return cancelAmount ? update(state, {steps: {[state.cancelOutWith]: {count: {$set: cancelAmount}}}}) : state;
+            return cancelAmount ? update(state, {cancelOutWith: {$set: null}, steps: {[state.cancelOutWith]: {count: {$set: cancelAmount}}}}) : state;
 
         case actionTypes.CANCEL_CANCEL_OUT:
             return update(state, {cancelOutWith: {$set: null}});

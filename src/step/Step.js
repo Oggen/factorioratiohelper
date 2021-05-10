@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
-import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut } from '../redux/actions';
+import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut, cancelCancelOut } from '../redux/actions';
 
 let inputResourceInputs = [];
 let outputResourceInputs = [];
@@ -24,7 +24,7 @@ const handleOutputCountSpaceKeyPress = (index, event) => {
     }
 }
 
-const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut}) => (
+const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut, handleCancelCancelOut}) => (
     <Paper className="container">
         <div className="stepTopRow">
             <TextField
@@ -33,7 +33,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
                 name="name"
                 type="text"
             />
-            <FlatButton label="Cancel out..." onClick={handleStartCancelOut} />
+            <FlatButton label={cancelling ? "Cancelling..." : "Cancel out"} onClick={cancelling ? handleCancelCancelOut : handleStartCancelOut} />
         </div>
 
         <TextField
@@ -122,7 +122,7 @@ const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, h
 );
 
 const mapStateToProps = (state, {index}) => {
-    return { step: state.steps[index] }
+    return { step: state.steps[index], cancelling: state.cancelOutWith === index }
 };
 
 const mapDispatchToProps = (dispatch, {index}) => {
@@ -134,7 +134,8 @@ const mapDispatchToProps = (dispatch, {index}) => {
         handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.target.value)),
         handleOutputCountChange: (i, e) => dispatch(updateStepOutputCount(index, i, e.target.value)),
         handleOutputResourceChange: (i, e) => dispatch(updateStepOutputResource(index, i, e.target.value)),
-        handleStartCancelOut: () => dispatch(startCancelOut(index))
+        handleStartCancelOut: () => dispatch(startCancelOut(index)),
+        handleCancelCancelOut: () => dispatch(cancelCancelOut())
     };
 };
 
