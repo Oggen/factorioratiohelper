@@ -2,9 +2,10 @@ import React from 'react';
 import styles from './step.css';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
-import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource } from '../redux/actions';
+import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut } from '../redux/actions';
 
 let inputResourceInputs = [];
 let outputResourceInputs = [];
@@ -23,8 +24,18 @@ const handleOutputCountSpaceKeyPress = (index, event) => {
     }
 }
 
-const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange}) => (
+const StepUI = ({step, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut}) => (
     <Paper className="container">
+        <div className="stepTopRow">
+            <TextField
+                className="stepName"
+                floatingLabelText="Name"
+                name="name"
+                type="text"
+            />
+            <FlatButton label="Cancel out..." onClick={handleStartCancelOut} />
+        </div>
+
         <TextField
             className="stepInput"
             floatingLabelText="Count"
@@ -122,7 +133,8 @@ const mapDispatchToProps = (dispatch, {index}) => {
         handleInputCountChange: (i, e) => dispatch(updateStepInputCount(index, i, e.target.value)),
         handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.target.value)),
         handleOutputCountChange: (i, e) => dispatch(updateStepOutputCount(index, i, e.target.value)),
-        handleOutputResourceChange: (i, e) => dispatch(updateStepOutputResource(index, i, e.target.value))
+        handleOutputResourceChange: (i, e) => dispatch(updateStepOutputResource(index, i, e.target.value)),
+        handleStartCancelOut: () => dispatch(startCancelOut(index))
     };
 };
 

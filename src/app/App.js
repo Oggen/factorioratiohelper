@@ -6,15 +6,15 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import { createStep } from '../redux/actions';
+import { createStep, finalizeCancelOut } from '../redux/actions';
 
-const AppUI = ({inputs, outputs, steps, handleAddStep}) => (
+const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleOutputClick}) => (
     <div className="content">
         {inputs.length > 0 && <Subheader>Inputs</Subheader>}
         <div className="chips">
             {inputs.map((x, i) => {
                 return (
-                    <Chip key={i} className="chip">
+                    <Chip key={i} className="chip" onClick={handleInputClick.bind(this, x.resource)}>
                         <Avatar>{+x.count.toFixed(2)}</Avatar>
                         {x.resource}
                     </Chip>
@@ -26,7 +26,7 @@ const AppUI = ({inputs, outputs, steps, handleAddStep}) => (
         <div className="chips">
             {outputs.map((x, i) => {
                 return (
-                    <Chip key={i} className="chip">
+                    <Chip key={i} className="chip" onClick={handleOutputClick.bind(this, x.resource)}>
                         <Avatar>{+x.count.toFixed(2)}</Avatar>
                         {x.resource}
                     </Chip>
@@ -47,8 +47,8 @@ const AppUI = ({inputs, outputs, steps, handleAddStep}) => (
     </div>
 );
 
-const calculateQuantites = steps => {
-    let quantites = [];
+const calculateQuantities = steps => {
+    let quantities = [];
 
     steps.forEach(step => {
         if (step.count === "" || step.speed === "" || step.time === "") return;
@@ -57,12 +57,12 @@ const calculateQuantites = steps => {
         step.inputs.forEach(input => {
             if (input.resource === "" || input.count === "") return;
             const count = input.count * scale;
-            let existing = quantites.find(x => x.resource === input.resource);
+            let existing = quantities.find(x => x.resource === input.resource);
             if (existing) {
                 existing.count += count;
             }
             else {
-                quantites.push({
+                quantities.push({
                     resource: input.resource,
                     count: count
                 });
@@ -71,12 +71,12 @@ const calculateQuantites = steps => {
         step.outputs.forEach(output => {
             if (output.resource === "" || output.count === "") return;
             const count = output.count * scale;
-            let existing = quantites.find(x => x.resource === output.resource);
+            let existing = quantities.find(x => x.resource === output.resource);
             if (existing) {
                 existing.count -= count;
             }
             else {
-                quantites.push({
+                quantities.push({
                     resource: output.resource,
                     count: -count
                 });
@@ -84,8 +84,8 @@ const calculateQuantites = steps => {
         });
     });
 
-    let inputs = quantites.filter(x => x.count > 0);
-    let outputs = quantites.filter(x => x.count < 0);
+    let inputs = quantities.filter(x => x.count > 0);
+    let outputs = quantities.filter(x => x.count < 0);
 
     let resources = inputs.map(x => x.resource);
     outputs.forEach(x => {
@@ -102,13 +102,15 @@ const calculateQuantites = steps => {
 const mapStateToProps = state => {
     return {
         steps: state.steps,
-        ...calculateQuantites(state.steps)
+        ...calculateQuantities(state.steps)
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        handleAddStep: () => dispatch(createStep())
+        handleAddStep: () => dispatch(createStep()),
+        handleInputClick: (x, _) => dispatch(finalizeCancelOut(x)),
+        handleOutputClick: (x, _) => dispatch(finalizeCancelOut(x))
     };
 };
 
@@ -118,3 +120,4 @@ const App = connect(
 )(AppUI);
 
 export default App;
+export { calculateQuantities };

@@ -45,3 +45,13 @@ export function updateStepOutputResource(stepIndex, outputIndex, value) {
 export function deleteStepOutput(stepIndex, outputIndex) {
     return { stepIndex, outputIndex, type: actionTypes.DELETE_STEP_OUTPUT };
 }
+
+export function startCancelOut(stepIndex) {
+    return { stepIndex, type: actionTypes.START_CANCEL_OUT };
+}
+export function finalizeCancelOut(resource) {
+    return { resource, type: actionTypes.FINALIZE_CANCEL_OUT };
+}
+export function cancelCancelOut() {
+    return { type: actionTypes.CANCEL_CANCEL_OUT };
+}

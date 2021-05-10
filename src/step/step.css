@@ -16,3 +16,13 @@
 .inputOutputField {
     padding-left: 15px;
 }
+
+.stepName {
+    flex-grow: 1;
+}
+
+.stepTopRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
