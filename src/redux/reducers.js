@@ -12,7 +12,7 @@ export default function reduxApp(state = initialState, action) {
 
         case actionTypes.CREATE_STEP:
             return update(state, {steps: {$push: [{
-                count: "", speed: "", time: "", inputs: [{count: "", resource: ""}], outputs: [{count: "", resource: ""}]
+                count: "", speed: "", time: "", name: "", inputs: [{count: "", resource: ""}], outputs: [{count: "", resource: ""}]
             }]}});
 
         case actionTypes.DELETE_STEP:
@@ -27,6 +27,9 @@ export default function reduxApp(state = initialState, action) {
 
         case actionTypes.UPDATE_STEP_TIME:
             return update(state, {steps: {[action.index]: {time: {$set: action.value}}}});
+
+        case actionTypes.UPDATE_STEP_NAME:
+            return update(state, {steps: {[action.index]: {name: {$set: action.value}}}});
 
 
         case actionTypes.CREATE_STEP_INPUT:

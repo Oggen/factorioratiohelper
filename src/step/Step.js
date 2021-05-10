@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
-import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut, cancelCancelOut } from '../redux/actions';
+import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut, cancelCancelOut, updateStepName } from '../redux/actions';
 
 let inputResourceInputs = [];
 let outputResourceInputs = [];
@@ -24,7 +24,7 @@ const handleOutputCountSpaceKeyPress = (index, event) => {
     }
 }
 
-const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleTimeChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut, handleCancelCancelOut}) => (
+const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleTimeChange, handleNameChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut, handleCancelCancelOut}) => (
     <Paper className="container">
         <div className="stepTopRow">
             <TextField
@@ -32,6 +32,8 @@ const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleT
                 floatingLabelText="Name"
                 name="name"
                 type="text"
+                value={step.name}
+                onChange={handleNameChange}
             />
             <FlatButton label={cancelling ? "Cancelling..." : "Cancel out"} onClick={cancelling ? handleCancelCancelOut : handleStartCancelOut} />
         </div>
@@ -130,6 +132,7 @@ const mapDispatchToProps = (dispatch, {index}) => {
         handleCountChange: (e) => dispatch(updateStepCount(index, e.target.value)),
         handleSpeedChange: (e) => dispatch(updateStepSpeed(index, e.target.value)),
         handleTimeChange: (e) => dispatch(updateStepTime(index, e.target.value)),
+        handleNameChange: (e) => dispatch(updateStepName(index, e.target.value)),
         handleInputCountChange: (i, e) => dispatch(updateStepInputCount(index, i, e.target.value)),
         handleInputResourceChange: (i, e) => dispatch(updateStepInputResource(index, i, e.target.value)),
         handleOutputCountChange: (i, e) => dispatch(updateStepOutputCount(index, i, e.target.value)),

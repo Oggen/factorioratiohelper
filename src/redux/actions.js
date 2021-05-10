@@ -17,6 +17,9 @@ export function updateStepSpeed(index, value) {
 export function updateStepTime(index, value) {
     return { index, value, type: actionTypes.UPDATE_STEP_TIME };
 }
+export function updateStepName(index, value) {
+    return { index, value, type: actionTypes.UPDATE_STEP_NAME };
+}
 
 
 export function createStepInput(stepIndex) {
