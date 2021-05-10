@@ -115,15 +115,14 @@ const mapDispatchToProps = dispatch => {
         handleInputClick: (x, _) => dispatch(finalizeCancelOut(x)),
         handleOutputClick: (x, _) => dispatch(finalizeCancelOut(x)),
         handleExport: () => dispatch(async (_, getState) => {
-            await navigator.clipboard.writeText("a" + getState().steps.map(x => compress(JSON.stringify(x))).join());
+            await navigator.clipboard.writeText("a" + compress(JSON.stringify(getState().steps)));
         }),
         handleImport: () => dispatch(async dispatch => {
             const clipped = await navigator.clipboard.readText();
             const mode = clipped[0];
             const data = clipped.slice(1);
             if (mode === "a") {
-                const steps = clipped.split(",").map(x => JSON.parse(decompress(data)));
-                dispatch(importSteps(steps));
+                dispatch(importSteps(JSON.parse(decompress(data))));
             }
         })
     };
