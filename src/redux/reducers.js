@@ -70,6 +70,9 @@ export default function reduxApp(state = initialState, action) {
         case actionTypes.IMPORT_STEPS:
             return update(state, {steps: {$set: action.steps}});
 
+        case actionTypes.SCALE_SYSTEM:
+            return { ...state, steps: state.steps.map(x => ({ ...x, count: x.count * action.scale })) };
+
         default:
             return state;
     }

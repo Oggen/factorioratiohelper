@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './app.css';
 import Step from '../step/Step';
+import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import { createStep, finalizeCancelOut, importSteps } from '../redux/actions';
+import { createStep, finalizeCancelOut, importSteps, scaleSystem } from '../redux/actions';
 import { compressToEncodedURIComponent as compress, decompressFromEncodedURIComponent as decompress } from 'lz-string';
 
-const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleOutputClick, handleExport, handleImport}) => (
+var scaleElement;
+
+const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleOutputClick, handleExport, handleImport, handleScale}) => (
     <div className="content">
         {inputs.length > 0 && <Subheader>Inputs</Subheader>}
         <div className="chips">
@@ -45,6 +48,13 @@ const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleO
                 <FlatButton onClick={handleAddStep} label="Add Step" />
                 <FlatButton onClick={handleExport} label="Export All to Clipboard" />
                 <FlatButton onClick={handleImport} label="Import All from Clipboard" />
+                <TextField
+                    className="scaleInput"
+                    hintText="Scale by..."
+                    type="number"
+                    ref={element => { scaleElement = element }}
+                />
+                <FlatButton onClick={handleScale} label="Scale System" />
             </div>
         </div>
     </div>
@@ -103,9 +113,11 @@ const calculateQuantities = steps => {
 }
 
 const mapStateToProps = state => {
+    const { inputs, outputs } = calculateQuantities(state.steps);
     return {
         steps: state.steps,
-        ...calculateQuantities(state.steps)
+        inputs: inputs.filter(x => x.count > 0.00001 ),
+        outputs: outputs.filter(x => x.count > 0.00001 )
     };
 };
 
@@ -124,7 +136,11 @@ const mapDispatchToProps = dispatch => {
             if (mode === "a") {
                 dispatch(importSteps(JSON.parse(decompress(data))));
             }
-        })
+        }),
+        handleScale: () => {
+            if (isNaN(+scaleElement.input.value)) return;
+            dispatch(scaleSystem(+scaleElement.input.value));
+        }
     };
 };
 
