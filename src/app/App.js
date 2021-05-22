@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import { createStep, finalizeCancelOut, importSteps, scaleSystem } from '../redux/actions';
+import { createStep, finalizeCancelOut, importStep, importSteps, scaleSystem } from '../redux/actions';
 import { compressToEncodedURIComponent as compress, decompressFromEncodedURIComponent as decompress } from 'lz-string';
 
 var scaleElement;
@@ -47,7 +47,7 @@ const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleO
             <div>
                 <FlatButton onClick={handleAddStep} label="Add Step" />
                 <FlatButton onClick={handleExport} label="Export All to Clipboard" />
-                <FlatButton onClick={handleImport} label="Import All from Clipboard" />
+                <FlatButton onClick={handleImport} label="Import from Clipboard" />
                 <TextField
                     className="scaleInput"
                     hintText="Scale by..."
@@ -135,6 +135,8 @@ const mapDispatchToProps = dispatch => {
             const data = clipped.slice(1);
             if (mode === "a") {
                 dispatch(importSteps(JSON.parse(decompress(data))));
+            } else if (mode === "s") {
+                dispatch(importStep(JSON.parse(decompress(data))));
             }
         }),
         handleScale: () => {

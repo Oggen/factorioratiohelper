@@ -4,6 +4,9 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import { ContentContentCopy, ContentClear } from 'material-ui/svg-icons';
+import { compressToEncodedURIComponent as compress } from 'lz-string';
 import { connect } from 'react-redux';
 import { updateStepCount, updateStepSpeed, updateStepTime, updateStepInputCount, updateStepInputResource, updateStepOutputCount, updateStepOutputResource, startCancelOut, cancelCancelOut, updateStepName, deleteStep } from '../redux/actions';
 
@@ -24,7 +27,7 @@ const handleOutputCountSpaceKeyPress = (index, event) => {
     }
 }
 
-const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleTimeChange, handleNameChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut, handleCancelCancelOut, handleDelete}) => (
+const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleTimeChange, handleNameChange, handleInputCountChange, handleInputResourceChange, handleOutputCountChange, handleOutputResourceChange, handleStartCancelOut, handleCancelCancelOut, handleDelete, handleExport}) => (
     <Paper className="container">
         <div className="stepTopRow">
             <TextField
@@ -36,7 +39,8 @@ const StepUI = ({step, cancelling, handleCountChange, handleSpeedChange, handleT
                 onChange={handleNameChange}
             />
             <FlatButton label={cancelling ? "Cancelling..." : "Cancel out"} onClick={cancelling ? handleCancelCancelOut : handleStartCancelOut} />
-            <FlatButton label="Delete" onClick={handleDelete} />
+            <IconButton tooltip="Export Step" onClick={handleExport}><ContentContentCopy /></IconButton>
+            <IconButton tooltip="Delete Step" onClick={handleDelete}><ContentClear /></IconButton>
         </div>
 
         <TextField
@@ -140,7 +144,10 @@ const mapDispatchToProps = (dispatch, {index}) => {
         handleOutputResourceChange: (i, e) => dispatch(updateStepOutputResource(index, i, e.target.value)),
         handleStartCancelOut: () => dispatch(startCancelOut(index)),
         handleCancelCancelOut: () => dispatch(cancelCancelOut()),
-        handleDelete: () => dispatch(deleteStep(index))
+        handleDelete: () => dispatch(deleteStep(index)),
+        handleExport: () => dispatch(async (_, getState) => {
+            await navigator.clipboard.writeText("s" + compress(JSON.stringify(getState().steps[index])));
+        })
     };
 };
 

@@ -63,6 +63,10 @@ export function importSteps(steps) {
     return { steps, type: actionTypes.IMPORT_STEPS };
 }
 
+export function importStep(step) {
+    return { step, type: actionTypes.IMPORT_STEP };
+}
+
 export function scaleSystem(scale) {
     return { scale, type: actionTypes.SCALE_SYSTEM };
 }
