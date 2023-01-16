@@ -4,8 +4,6 @@ import styles from './app.css';
 import Step from '../step/Step';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { createStep, finalizeCancelOut, importStep, importSteps, scaleSystem } from '../redux/actions';
 import { compressToEncodedURIComponent as compress, decompressFromEncodedURIComponent as decompress } from 'lz-string';
@@ -18,10 +16,10 @@ const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleO
         <div className="chips">
             {inputs.map((x, i) => {
                 return (
-                    <Chip key={i} className="chip" onClick={handleInputClick.bind(this, x.resource)}>
-                        <Avatar>{+x.count.toFixed(2)}</Avatar>
-                        {x.resource}
-                    </Chip>
+                    <div key={i} className="chip" onClick={handleInputClick.bind(this, x.resource)}>
+                        <div className="chip-count">{+x.count.toFixed(2)}</div>
+                        <div className="chip-name">{x.resource}</div>
+                    </div>
                 );
             })}
         </div>
@@ -30,10 +28,10 @@ const AppUI = ({inputs, outputs, steps, handleAddStep, handleInputClick, handleO
         <div className="chips">
             {outputs.map((x, i) => {
                 return (
-                    <Chip key={i} className="chip" onClick={handleOutputClick.bind(this, x.resource)}>
-                        <Avatar>{+x.count.toFixed(2)}</Avatar>
-                        {x.resource}
-                    </Chip>
+                    <div key={i} className="chip" onClick={handleOutputClick.bind(this, x.resource)}>
+                        <div className="chip-count">{+x.count.toFixed(2)}</div>
+                        <div className="chip-name">{x.resource}</div>
+                    </div>
                 );
             })}
         </div>
